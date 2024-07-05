@@ -56,7 +56,7 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
         await page.waitForLoadState("load");
 
         //10 times for queue length
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 11; i++) {
             //Next button
             const nextButton = "#nextInDiscoveryQueue > div.btn_next_in_queue.btn_next_in_queue_trigger";
 
@@ -67,14 +67,14 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
             const button = page.locator(nextButton);
         
-            await button.waitFor({
-                timeout: 1000,
-            });
-
-            if (button)
+            try {
+                await button.waitFor({
+                    timeout: 1000,
+                });
                 await page.click(nextButton);
-            else
+            } catch (e) {
                 await page.click(nextButtonForAge);
+            }
         }
     }
 
