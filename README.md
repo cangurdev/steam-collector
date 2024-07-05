@@ -33,5 +33,5 @@ node index.js -c
 
 Add -s flag to collect only sticker.
 ```bash
-node index.js -c
+node index.js -s
 ```
