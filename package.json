@@ -1,11 +1,10 @@
 {
-  "name": "Steam Collector",
+  "name": "Steam-Collector",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
-    "@playwright/test": "^1.45.1",
-    "@types/node": "^20.14.9"
+    "@playwright/test": "^1.45.1"
   },
   "scripts": {}
 }
