@@ -5,8 +5,8 @@ const { chromium } = require ('playwright');
 //Update browser path to use the desired browser
 const browserPath = '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser';
 
-spawn(browserPath, ['--remote-debugging-port=9222'], { detached: true });
-
+const browserProcess = spawn(browserPath, ['--remote-debugging-port=9222'], { detached: true });
+  
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 (async () => {
@@ -29,9 +29,9 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     const defaultContext = browser.contexts()[0];
     const page           = defaultContext.pages()[0];
 
-    await page.goto('https://store.steampowered.com/category/action');
-
     if (isGetSticker) {
+        await page.goto('https://store.steampowered.com/category/action');
+
         //Get sticker button
         const button = "#SaleSection_512062 > div > div > button";
         
@@ -56,7 +56,7 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
         await page.waitForLoadState("load");
 
         //10 times for queue length
-        for (let i = 0; i < 11; i++) {
+        for (let i = 0; i < 12; i++) {
             //Next button
             const nextButton = "#nextInDiscoveryQueue > div.btn_next_in_queue.btn_next_in_queue_trigger";
 
@@ -64,6 +64,8 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
             const nextButtonForAge = "#app_agegate > div.main_content_ctn > div.agegate_text_container.btns > div > a.btn_next_in_queue.btn_next_in_queue_trigger > div";
     
             await page.waitForLoadState("load");
+
+            await wait(2000);
 
             const button = page.locator(nextButton);
         
@@ -78,5 +80,9 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
         }
     }
 
+    await page.close();
+    await defaultContext.close();
     await browser.close();
+
+    process.kill(-browserProcess.pid, 'SIGTERM');
 })();
