@@ -80,6 +80,9 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
         }
     }
 
+    //One more wait for the road
+    await wait(2000);
+
     await page.close();
     await defaultContext.close();
     await browser.close();
